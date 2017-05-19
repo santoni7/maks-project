@@ -22,11 +22,30 @@ namespace SnakeGame
         public Form1()
         {
             InitializeComponent();
-            pictureBox1.PreviewKeyDown += PictureBox1_PreviewKeyDown;
             game = new GameManager(pictureBox1.Width, pictureBox1.Height);
         }
 
-        private void PictureBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        DateTime _lastDraw;
+        DateTime _lastUpdate;
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            int dt = (DateTime.Now - _lastDraw).Milliseconds;
+            game.Draw(dt, e.Graphics);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            game.Update(direction, spaceKey);
+            pictureBox1.Refresh();
+        }
+
+        private void pictureBox1_Resize(object sender, EventArgs e)
+        {
+            if (game != null)
+                game.UpdateCanvasSize(pictureBox1.Width, pictureBox1.Height);
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             var key = e.KeyCode;
             if (keyDirs.Contains(key))
