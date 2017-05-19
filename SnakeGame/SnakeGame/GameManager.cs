@@ -45,7 +45,7 @@ namespace SnakeGame
         {
             this.direction = direction;
             Cell next = snake.Peek();
-            next.position.Offset(direction);
+            next.position = new Point(next.position.X + direction.X, next.position.Y + direction.Y);
             next = Bounding(next);
             
             if (walls.Contains(next))
@@ -70,7 +70,7 @@ namespace SnakeGame
                 snake.Enqueue(el);
             }
             
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
         public void Draw(int dt, Graphics canvas)
         {
@@ -87,6 +87,7 @@ namespace SnakeGame
                 Point drawPosition = new Point(c.position.X * cellW, c.position.Y * cellH);
                 Brush b = new SolidBrush(Color.DarkGray);
                 canvas.FillRectangle(b, drawPosition.X, drawPosition.Y, cellW, cellH);
+                canvas.DrawRectangle(Pens.Gray, drawPosition.X, drawPosition.Y, cellW, cellH);
             }
         }
         public void UpdateCanvasSize(int width, int height)
@@ -94,6 +95,8 @@ namespace SnakeGame
             this.width_c = width;
             this.height_c = height;
 
+            this.width = width / cellW;
+            this.height = height / cellH;
         }
 
         private Cell Bounding(Cell cell)
@@ -107,8 +110,6 @@ namespace SnakeGame
             if (cell.position.Y < height)
                 cell.position.Y = height;
             return cell;
-            this.width = width / cellW;
-            this.height = height / cellH;
         }
 
         class Cell
