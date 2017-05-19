@@ -83,15 +83,18 @@ namespace SnakeGame
             Pen p = Pens.Gray;
             if (deleted != null)
             {
-                canvas.FillRectangle(Brushes.White, deleted.position.X * cellW, deleted.position.Y * cellH, cellW, cellH);
+                canvas.FillRectangle(Brushes.White, deleted.position.X * cellW,
+                    deleted.position.Y * cellH, cellW, cellH);
+                canvas.DrawRectangle(p, deleted.position.X * cellW,
+                    deleted.position.Y * cellH, cellW, cellH);
             }
-            for (int px = 0; px + cellW < width_c; px += cellW)
-            {
-                for (int py = 0; py + cellH < height_c; py += cellH)
-                {
-                    canvas.DrawRectangle(p, new Rectangle(px, py, cellW, cellH));
-                }
-            }
+            //for (int px = 0; px + cellW < width_c; px += cellW)
+            //{
+            //    for (int py = 0; py + cellH < height_c; py += cellH)
+            //    {
+            //        canvas.DrawRectangle(p, new Rectangle(px, py, cellW, cellH));
+            //    }
+            //}
             
             foreach (Cell c in snake)
             {
@@ -101,6 +104,19 @@ namespace SnakeGame
                 canvas.DrawRectangle(Pens.Gray, drawPosition.X, drawPosition.Y, cellW, cellH);
             }
         }
+
+        public void DrawMap(Graphics canvas)
+        {
+            Pen p = Pens.Gray;
+            for (int px = 0; px + cellW < width_c; px += cellW)
+            {
+                for (int py = 0; py + cellH < height_c; py += cellH)
+                {
+                    canvas.DrawRectangle(p, new Rectangle(px, py, cellW, cellH));
+                }
+            }
+        }
+
         public void UpdateCanvasSize(int width, int height)
         { 
             this.width_c = width;

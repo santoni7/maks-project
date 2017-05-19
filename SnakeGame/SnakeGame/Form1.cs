@@ -15,7 +15,7 @@ namespace SnakeGame
     {
         SortedSet<Keys> keyDirs = new SortedSet<Keys>() { Keys.Down, Keys.Up, Keys.Left, Keys.Right };
         Point direction = new Point(1, 0);
-        bool spaceKey = false;
+        bool spaceKey = false, mapDraw = true;
         
 
         GameManager game;
@@ -54,6 +54,11 @@ namespace SnakeGame
         
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            if (mapDraw)
+            {
+                game.DrawMap(e.Graphics);
+                mapDraw = false;
+            }
             game.Draw(e.Graphics);
         }
 
@@ -64,8 +69,11 @@ namespace SnakeGame
 
         private void pictureBox1_Resize(object sender, EventArgs e)
         {
-            if(game != null)
-                game.UpdateCanvasSize(pictureBox1.Width, pictureBox1.Height);
+            if (game != null)
+            {
+                game.UpdateCanvasSize(pictureBox1.Width, pictureBox1.Height);                
+            }
+            mapDraw = true;
         }
 
         private void timer2_Tick(object sender, EventArgs e)
