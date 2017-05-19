@@ -43,17 +43,18 @@ namespace SnakeGame
             snake.Add(new Cell(width / 2 - 4, height / 2));
 
             deleted = null;
-            
+            direction = new Point(1, 0);
         }
 
         public void Update(Point direction, bool pauseChange)
         {
-            this.direction = direction;
+            if (!Oposite(this.direction, direction))
+                this.direction = direction;
             deleted = new Cell(snake.Last().position);
             Cell next = snake.Last();
             snake.RemoveAt(snake.Count - 1);
             Cell head = snake.First();
-            next.position = new Point(head.position.X + direction.X, head.position.Y + direction.Y);
+            next.position = new Point(head.position.X + this.direction.X, head.position.Y + this.direction.Y);
             next = Bounding(next);
             
             if (walls.Contains(next))
@@ -115,6 +116,15 @@ namespace SnakeGame
                     canvas.DrawRectangle(p, new Rectangle(px, py, cellW, cellH));
                 }
             }
+        }
+
+        public bool Oposite(Point dir1, Point dir2)
+        {
+            if (dir1.X + dir2.X == 0 && dir1.Y == 0)
+                return true;
+            if (dir1.Y + dir2.Y == 0 && dir1.X == 0)
+                return true;
+            return false;
         }
 
         public void UpdateCanvasSize(int width, int height)
