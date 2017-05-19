@@ -62,13 +62,14 @@ namespace SnakeGame
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //game.Update(0);
+            game.Update(direction, spaceKey);
             pictureBox1.Refresh();
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
         {
-            game.UpdateCanvasSize(pictureBox1.Width, pictureBox1.Height);
+            if (game != null)
+                game.UpdateCanvasSize(pictureBox1.Width, pictureBox1.Height);
         }
     }
 }

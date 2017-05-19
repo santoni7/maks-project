@@ -33,7 +33,8 @@ namespace SnakeGame
             snake = new Queue<Cell>();
             food = new List<FoodCell>();
             walls = new HashSet<WallCell>();
-                
+
+            state = GameState.Play;    
 
             snake.Enqueue(new Cell(width / 2 - 4, height / 2));
             snake.Enqueue(new Cell(width / 2 - 3, height / 2));
@@ -70,7 +71,6 @@ namespace SnakeGame
                 snake.Enqueue(el);
             }
             
-            throw new NotImplementedException();
         }
         public void Draw(int dt, Graphics canvas)
         {
@@ -94,21 +94,21 @@ namespace SnakeGame
             this.width_c = width;
             this.height_c = height;
 
+            this.width = width / cellW;
+            this.height = height / cellH;
         }
 
         private Cell Bounding(Cell cell)
         {
             if (cell.position.X > width)
                 cell.position.X = 0;
-            if (cell.position.X < width)
+            if (cell.position.X < 0)
                 cell.position.X = width;
             if (cell.position.Y > height)
                 cell.position.Y = 0;
-            if (cell.position.Y < height)
+            if (cell.position.Y < 0)
                 cell.position.Y = height;
             return cell;
-            this.width = width / cellW;
-            this.height = height / cellH;
         }
 
         class Cell
