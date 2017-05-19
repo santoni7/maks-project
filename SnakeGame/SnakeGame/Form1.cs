@@ -14,8 +14,7 @@ namespace SnakeGame
     public partial class Form1 : Form
     {
         SortedSet<Keys> keyDirs = new SortedSet<Keys>() { Keys.Down, Keys.Up, Keys.Left, Keys.Right };
-        enum Dirs { Up, Down, Left, Right};
-        Dirs direction = Dirs.Right;
+        Point direction = new Point(1, 0);
         
 
         GameManager game;
@@ -34,16 +33,16 @@ namespace SnakeGame
                 switch (key)
                 {
                     case Keys.Up:
-                        direction = Dirs.Up;
+                        direction = new Point(0, 1);
                         break;
                     case Keys.Down:
-                        direction = Dirs.Down;
+                        direction = new Point(0, -1);
                         break;
                     case Keys.Left:
-                        direction = Dirs.Left;
+                        direction = new Point(-1, 0);
                         break;
                     case Keys.Right:
-                        direction = Dirs.Right;
+                        direction = new Point(1, 0);
                         break;
                 }
             }
