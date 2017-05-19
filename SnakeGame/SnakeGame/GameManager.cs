@@ -13,6 +13,15 @@ namespace SnakeGame
         private List<FoodCell> food;
         private HashSet<WallCell> walls;
 
+        int width;
+        int height;
+
+        public GameManager(int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+        }
+
         public void Update(int dt)
         {
             // TODO
@@ -20,8 +29,7 @@ namespace SnakeGame
         }
         public void Draw(int dt, Graphics canvas)
         {
-            // TODO
-            throw new NotImplementedException();
+
         }
 
 
@@ -37,24 +45,6 @@ namespace SnakeGame
         class WallCell : Cell
         {
 
-        }
-    }
-    public class InputSingletone
-    {
-        private InputSingletone _instance;
-
-        public InputSingletone Instance { get => _instance != null ? _instance : new InputSingletone(); }
-
-        private InputSingletone() { }
-
-
-        public void Update()
-        {
-            throw new NotImplementedException();
-        }
-        public bool isKeyPressed()
-        {
-            throw new NotImplementedException();
         }
     }
 }
