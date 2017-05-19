@@ -9,9 +9,10 @@ namespace SnakeGame
 {
     public class GameManager
     {
-        private List<Cell> snake;
+        private Queue<Cell> snake;
         private List<FoodCell> food;
         private HashSet<WallCell> walls;
+        private Point direction;
 
         int width;
         int height;
@@ -22,9 +23,13 @@ namespace SnakeGame
             this.height = height;
         }
 
-        public void Update(int dt)
+        public void Update(Point direction)
         {
-            // TODO
+            this.direction = direction;
+            Cell next = snake.Peek();
+            next.position.Offset(direction);
+            if (walls.Contains(next))
+            
             throw new NotImplementedException();
         }
         public void Draw(int dt, Graphics canvas)
@@ -35,7 +40,7 @@ namespace SnakeGame
 
         class Cell
         {
-            Point position;
+            public Point position;
             // ...
         }
         class FoodCell : Cell
