@@ -23,6 +23,7 @@ namespace SnakeGame
         {
             InitializeComponent();
             game = new GameManager(pictureBox1.Width, pictureBox1.Height);
+            pictureBox1.BackColor = Color.White;
         }
         
         private void Form1_KeyUp(object sender, KeyEventArgs e)
@@ -33,10 +34,10 @@ namespace SnakeGame
                 switch (key)
                 {
                     case Keys.Up:
-                        direction = new Point(0, 1);
+                        direction = new Point(0, -1);
                         break;
                     case Keys.Down:
-                        direction = new Point(0, -1);
+                        direction = new Point(0, 1);
                         break;
                     case Keys.Left:
                         direction = new Point(-1, 0);
@@ -69,7 +70,8 @@ namespace SnakeGame
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            pictureBox1.Refresh();
+            //pictureBox1.Refresh();
+            game.Draw(pictureBox1.CreateGraphics());
         }
     }
 }
