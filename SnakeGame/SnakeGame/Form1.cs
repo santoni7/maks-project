@@ -15,6 +15,7 @@ namespace SnakeGame
     {
         SortedSet<Keys> keyDirs = new SortedSet<Keys>() { Keys.Down, Keys.Up, Keys.Left, Keys.Right };
         Point direction = new Point(1, 0);
+        bool spaceKey = false;
         
 
         GameManager game;
@@ -44,7 +45,10 @@ namespace SnakeGame
                         direction = new Point(1, 0);
                         break;
                 }
+                return;
             }
+            if (key == Keys.Space)
+                spaceKey = true;
         }
 
         DateTime _lastDraw;
