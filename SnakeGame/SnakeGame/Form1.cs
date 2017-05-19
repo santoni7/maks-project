@@ -23,6 +23,7 @@ namespace SnakeGame
         {
             InitializeComponent();
             pictureBox1.PreviewKeyDown += PictureBox1_PreviewKeyDown;
+            game = new GameManager(pictureBox1.Width, pictureBox1.Height);
         }
 
         private void PictureBox1_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -46,15 +47,20 @@ namespace SnakeGame
                         break;
                 }
             }
-            
-            game = new GameManager();
         }
 
         DateTime _lastDraw;
+        DateTime _lastUpdate;
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            int dt = 0;
+            int dt = (DateTime.Now - _lastDraw).Milliseconds;
             game.Draw(dt, e.Graphics);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            game.Update(0);
+            pictureBox1.Refresh();
         }
     }
 }

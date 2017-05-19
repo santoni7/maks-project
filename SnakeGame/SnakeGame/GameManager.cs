@@ -16,6 +16,9 @@ namespace SnakeGame
         int width;
         int height;
 
+        const int cellW = 50;
+        const int cellH = 50;
+
         public GameManager(int width, int height)
         {
             this.width = width;
@@ -29,13 +32,25 @@ namespace SnakeGame
         }
         public void Draw(int dt, Graphics canvas)
         {
-
+            Pen p = Pens.Gray;
+            for(int px = 0; px < width; px += cellW)
+            {
+                for(int py = 0; py < height; py += cellH)
+                {
+                    canvas.DrawRectangle(p, new Rectangle(px, py, cellW, cellH));
+                }
+            }
+            foreach (Cell c in snake)
+            {
+                Point drawPosition = new Point(c.position.X * cellW, c.position.Y * cellH);
+                canvas.FillRectangle(Brushes.Fuchsia, drawPosition.X, drawPosition.Y, cellW, cellH);
+            }
         }
 
 
         class Cell
         {
-            Point position;
+            public Point position;
             // ...
         }
         class FoodCell : Cell
