@@ -17,13 +17,28 @@ namespace SnakeGame
         private Point direction;
         private GameState state;
 
+        int width_c;//canvas size
+        int height_c;
+
         int width;
         int height;
 
-        public GameManager(int width, int height)
+        const int cellW = 25;
+        const int cellH = 25;
+
+        public GameManager(int canvas_width, int canvas_height)
         {
-            this.width = width;
-            this.height = height;
+            UpdateCanvasSize(canvas_width, canvas_height);
+
+            snake = new Queue<Cell>();
+            food = new List<FoodCell>();
+            walls = new HashSet<WallCell>();
+                
+
+            snake.Enqueue(new Cell(width / 2 - 4, height / 2));
+            snake.Enqueue(new Cell(width / 2 - 3, height / 2));
+            snake.Enqueue(new Cell(width / 2 - 2, height / 2));
+            snake.Enqueue(new Cell(width / 2 - 1, height / 2));
         }
 
         public void Update(Point direction, bool pauseChange)
@@ -59,6 +74,25 @@ namespace SnakeGame
         }
         public void Draw(int dt, Graphics canvas)
         {
+            Pen p = Pens.Gray;
+            for(int px = 0; px + cellW < width_c; px += cellW)
+            {
+                for(int py = 0; py + cellH < height_c; py += cellH)
+                {
+                    canvas.DrawRectangle(p, new Rectangle(px, py, cellW, cellH));
+                }
+            }
+            foreach (Cell c in snake)
+            {
+                Point drawPosition = new Point(c.position.X * cellW, c.position.Y * cellH);
+                Brush b = new SolidBrush(Color.DarkGray);
+                canvas.FillRectangle(b, drawPosition.X, drawPosition.Y, cellW, cellH);
+            }
+        }
+        public void UpdateCanvasSize(int width, int height)
+        { 
+            this.width_c = width;
+            this.height_c = height;
 
         }
 
@@ -73,13 +107,25 @@ namespace SnakeGame
             if (cell.position.Y < height)
                 cell.position.Y = height;
             return cell;
+            this.width = width / cellW;
+            this.height = height / cellH;
         }
-
 
         class Cell
         {
             public Point position;
-            // ...
+            public Cell()
+            {
+
+            }
+            public Cell(Point position)
+            {
+                this.position = position;
+            }
+            public Cell(int x, int y)
+            {
+                this.position = new Point(x, y);
+            }
         }
         class FoodCell : Cell
         {
