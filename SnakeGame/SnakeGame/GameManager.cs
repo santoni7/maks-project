@@ -72,7 +72,7 @@ namespace SnakeGame
             }
             
         }
-        public void Draw(int dt, Graphics canvas)
+        public void Draw(Graphics canvas)
         {
             Pen p = Pens.Gray;
             for(int px = 0; px + cellW < width_c; px += cellW)

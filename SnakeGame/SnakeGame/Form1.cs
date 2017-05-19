@@ -24,27 +24,7 @@ namespace SnakeGame
             InitializeComponent();
             game = new GameManager(pictureBox1.Width, pictureBox1.Height);
         }
-
-        DateTime _lastDraw;
-        DateTime _lastUpdate;
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            int dt = (DateTime.Now - _lastDraw).Milliseconds;
-            game.Draw(dt, e.Graphics);
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            game.Update(direction, spaceKey);
-            pictureBox1.Refresh();
-        }
-
-        private void pictureBox1_Resize(object sender, EventArgs e)
-        {
-            if (game != null)
-                game.UpdateCanvasSize(pictureBox1.Width, pictureBox1.Height);
-        }
-
+        
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             var key = e.KeyCode;
@@ -70,24 +50,21 @@ namespace SnakeGame
             if (key == Keys.Space)
                 spaceKey = true;
         }
-
-        DateTime _lastDraw;
-        DateTime _lastUpdate;
+        
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            int dt = (DateTime.Now - _lastDraw).Milliseconds;
-            game.Draw(dt, e.Graphics);
+            game.Draw(e.Graphics);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             game.Update(direction, spaceKey);
-            //pictureBox1.Refresh();
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
         {
-            game.UpdateCanvasSize(pictureBox1.Width, pictureBox1.Height);
+            if(game != null)
+                game.UpdateCanvasSize(pictureBox1.Width, pictureBox1.Height);
         }
 
         private void timer2_Tick(object sender, EventArgs e)
