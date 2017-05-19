@@ -39,22 +39,4 @@ namespace SnakeGame
 
         }
     }
-    public class InputSingletone
-    {
-        private InputSingletone _instance;
-
-        public InputSingletone Instance { get => _instance != null ? _instance : new InputSingletone(); }
-
-        private InputSingletone() { }
-
-
-        public void Update()
-        {
-            throw new NotImplementedException();
-        }
-        public bool isKeyPressed()
-        {
-            throw new NotImplementedException();
-        }
-    }
 }
