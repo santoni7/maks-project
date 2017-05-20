@@ -18,13 +18,25 @@ namespace SnakeGame
         
 
         GameManager game;
-        public Form1()
+        Form parent;
+        float gameSpeed = 1;
+        public Form1(Form parent, float gameSpeed = 1)
         {
             InitializeComponent();
             game = new GameManager(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.BackColor = Color.White;
+            this.parent = parent;
+            this.gameSpeed = gameSpeed;
+            setGameSpeed(gameSpeed);
         }
-        
+
+        public void setGameSpeed(float gameSpeed)
+        {
+            const float defaultInterval = 500;
+            timer1.Interval = (int) (defaultInterval / gameSpeed);
+            timer2.Interval = timer1.Interval / 2;
+        }
+
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
             var key = e.KeyCode;
@@ -71,6 +83,11 @@ namespace SnakeGame
                 game.UpdateCanvasSize(pictureBox1.Width, pictureBox1.Height);                
             }
             mapDraw = true;
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            parent.Show();
         }
 
         private void timer2_Tick(object sender, EventArgs e)
