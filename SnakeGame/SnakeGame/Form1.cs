@@ -21,9 +21,13 @@ namespace SnakeGame
         GameManager game;
         Form parent;
         float gameSpeed = 1;
-        public Form1(Form parent, float gameSpeed = 1)
+        public Form1(Form parent, float gameSpeed = 1, int width = 10, int height = 10)
         {
             InitializeComponent();
+            int w = width * GameManager.cellW;
+            int h = height * GameManager.cellH;
+            pictureBox1.Size = new Size(w, h);
+            this.Size = new Size(w + 24, h + 30);
             game = new GameManager(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.BackColor = Color.White;
             this.parent = parent;

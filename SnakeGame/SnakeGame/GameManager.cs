@@ -24,8 +24,8 @@ namespace SnakeGame
         int width;
         int height;
 
-        const int cellW = 25;
-        const int cellH = 25;
+        public const int cellW = 25;
+        public const int cellH = 25;
 
         public GameManager(int canvas_width, int canvas_height)
         {
