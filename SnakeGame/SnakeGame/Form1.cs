@@ -31,7 +31,7 @@ namespace SnakeGame
             Point margin = new Point(12, 12);
             pictureBox1.Location = margin;
             this.ClientSize = new Size(w + margin.X *2, h + margin.Y *2);
-            game = new GameManager(w, h, useWalls);
+            game = new GameManager(w, h, useWalls, gameSpeed);
             pictureBox1.BackColor = Color.White;
             this.parent = parent;
             this.gameSpeed = gameSpeed;
@@ -78,9 +78,23 @@ namespace SnakeGame
             game.Draw(e.Graphics);
         }
 
+        private void onGameOver()
+        {
+            game.State = GameManager.GameState.Pause;
+            DialogResult res = MessageBox.Show("Your score: " + game.Score, "Game over!");
+            Close();
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-            game.Update(direction, spaceKey);
+            if(game.State == GameManager.GameState.GameOver)
+            {
+                onGameOver();
+            }
+            else
+            {
+                game.Update(direction, spaceKey);
+            }
             spaceKey = false;
         }
 
@@ -103,5 +117,6 @@ namespace SnakeGame
             //pictureBox1.Refresh();
             game.Draw(pictureBox1.CreateGraphics());
         }
+        
     }
 }
