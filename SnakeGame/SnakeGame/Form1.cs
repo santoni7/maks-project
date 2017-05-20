@@ -27,7 +27,7 @@ namespace SnakeGame
             int h = height * GameManager.cellH;
             //pictureBox1.Width = w;
             //pictureBox1.Height = h;
-            this.Size = new Size(w + 40+1, h + 63+1);
+            this.ClientSize = new Size(w + 25, h + 25);
             game = new GameManager(w, h, useWalls);
             pictureBox1.BackColor = Color.White;
             this.parent = parent;
