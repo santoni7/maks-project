@@ -68,7 +68,7 @@ namespace SnakeGame
             {
                 snake.Add(snake.Last());
             }
-            if (snake.Take(snake.Count - 1).Count(a => a.position == next.position) > 0)
+            if (snake.Take(snake.Count - 1).Contains(next))
             {
                 state = GameState.GameOver;
             }
@@ -119,7 +119,7 @@ namespace SnakeGame
             }
         }
 
-        public bool Oposite(Point dir1, Point dir2)
+        private bool Oposite(Point dir1, Point dir2)
         {
             if (dir1.X + dir2.X == 0 && dir1.Y == 0)
                 return true;
@@ -150,6 +150,15 @@ namespace SnakeGame
             return cell;
         }
 
+        private void CreateFood()
+        {
+            Random rand = new Random();
+            Cell position = new Cell(rand.Next(width), rand.Next(height));
+            while (walls.Contains(position) || food.Contains(position) || snake.Contains(position))
+                position = new Cell(rand.Next(width), rand.Next(height));
+            food.Add((FoodCell)position);
+        }
+
         class Cell
         {
             public Point position;
@@ -164,6 +173,10 @@ namespace SnakeGame
             public Cell(int x, int y)
             {
                 this.position = new Point(x, y);
+            }
+            public override bool Equals(object obj)
+            {
+                return ((Cell)obj).position == this.position;
             }
         }
         class FoodCell : Cell
