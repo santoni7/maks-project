@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SnakeGame
 {
     public class GameManager
     {
-        enum GameState { Pause, Play, GameOver}
+        public enum GameState { Pause, Play, GameOver}
 
         private List<Cell> snake;
         private List<Cell> food;
@@ -30,9 +31,16 @@ namespace SnakeGame
 
         bool useWalls;
 
-        public GameManager(int canvas_width, int canvas_height, bool useWalls)
+        int score = 0;
+        float speedCoef = 1;
+        
+        public int Score { get => score; }
+        public GameState State { get => state; set => state = value; }
+
+        public GameManager(int canvas_width, int canvas_height, bool useWalls, float speedCoef)
         {
             this.useWalls = useWalls;
+            this.speedCoef = speedCoef;
             UpdateCanvasSize(canvas_width, canvas_height);
 
             snake = new List<Cell>();
@@ -56,28 +64,7 @@ namespace SnakeGame
 
         public void Update(Point direction, bool pauseChange)
         {
-            UpdateCount++;
-            if (!Oposite(this.direction, direction))
-                this.direction = direction;
-            deletedSnakePart = new Cell(snake.Last().position);
-            Cell next = new Cell(snake.Last().position);
-            Cell head = snake.First();
-            next.position = new Point(head.position.X + this.direction.X, head.position.Y + this.direction.Y);
-            next = Bounding(next);
             
-            if (walls.Contains(next))
-            {
-                state = GameState.GameOver;
-            }
-            if (food.Contains(next))
-            {
-                snake.Add(snake.Last());
-                food.Remove(next);
-            }
-            if (snake.Take(snake.Count - 1).Contains(next))
-            {
-                state = GameState.GameOver;
-            }
             if (pauseChange)
             {
                 if (state == GameState.Play)
@@ -87,6 +74,29 @@ namespace SnakeGame
             }
             if (state == GameState.Play)
             {
+                UpdateCount++;
+                if (!Oposite(this.direction, direction))
+                    this.direction = direction;
+                deletedSnakePart = new Cell(snake.Last().position);
+                Cell next = new Cell(snake.Last().position);
+                Cell head = snake.First();
+                next.position = new Point(head.position.X + this.direction.X, head.position.Y + this.direction.Y);
+                next = Bounding(next);
+
+                if (walls.Contains(next))
+                {
+                    state = GameState.GameOver;
+                }
+                if (food.Contains(next))
+                {
+                    snake.Add(snake.Last());
+                    food.Remove(next);
+                    score++;
+                }
+                if (snake.Take(snake.Count - 1).Contains(next))
+                {
+                    state = GameState.GameOver;
+                }
                 snake.RemoveAt(snake.Count - 1);
                 snake.Insert(0,next);
                 if (UpdateCount % 20 == 0)
@@ -183,6 +193,7 @@ namespace SnakeGame
                 position = new Cell(rand.Next(width), rand.Next(height));
             food.Add(position);
         }
+
 
         class Cell
         {
