@@ -25,8 +25,8 @@ namespace SnakeGame
         int width;
         int height;
 
-        public const int cellW = 25;
-        public const int cellH = 25;
+        public const int cellW = 20;
+        public const int cellH = 20;
 
         bool useWalls;
 
@@ -56,6 +56,7 @@ namespace SnakeGame
 
         public void Update(Point direction, bool pauseChange)
         {
+            UpdateCount++;
             if (!Oposite(this.direction, direction))
                 this.direction = direction;
             deletedSnakePart = new Cell(snake.Last().position);
@@ -88,10 +89,13 @@ namespace SnakeGame
             {
                 snake.RemoveAt(snake.Count - 1);
                 snake.Insert(0,next);
+                if (UpdateCount % 20 == 0)
+                    CreateFood();
             }
-            UpdateCount++;
-            if (UpdateCount % 20 == 0)
-                CreateFood();
+            else
+            {
+                deletedSnakePart = null;
+            }           
         }
 
         public void Draw(Graphics canvas)

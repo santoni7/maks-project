@@ -75,7 +75,6 @@ namespace SnakeGame
                 game.DrawMap(e.Graphics);
                 mapDraw = false;
             }
-            e.Graphics.DrawImage(SnakeGame.Properties.Resources.)
             game.Draw(e.Graphics);
         }
 
