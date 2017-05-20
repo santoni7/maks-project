@@ -23,11 +23,14 @@ namespace SnakeGame
         public Form1(Form parent, float gameSpeed = 1, int width = 10, int height = 10, bool useWalls = false)
         {
             InitializeComponent();
-            int w = width * GameManager.cellW;
-            int h = height * GameManager.cellH;
+            int w = width * GameManager.cellW + 1;
+            int h = height * GameManager.cellH + 1;
             //pictureBox1.Width = w;
             //pictureBox1.Height = h;
-            this.ClientSize = new Size(w + 33, h + 31);
+            pictureBox1.ClientSize = new Size(w, h);
+            Point margin = new Point(12, 12);
+            pictureBox1.Location = margin;
+            this.ClientSize = new Size(w + margin.X *2, h + margin.Y *2);
             game = new GameManager(w, h, useWalls);
             pictureBox1.BackColor = Color.White;
             this.parent = parent;
@@ -37,7 +40,7 @@ namespace SnakeGame
 
         public void setGameSpeed(float gameSpeed)
         {
-            const float defaultInterval = 500;
+            const float defaultInterval = 200;
             timer1.Interval = (int) (defaultInterval / gameSpeed);
             timer2.Interval = timer1.Interval / 2;
         }
@@ -72,6 +75,7 @@ namespace SnakeGame
                 game.DrawMap(e.Graphics);
                 mapDraw = false;
             }
+            e.Graphics.DrawImage(SnakeGame.Properties.Resources.)
             game.Draw(e.Graphics);
         }
 
