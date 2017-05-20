@@ -35,11 +35,9 @@ namespace SnakeGame
             else if (radioButton3.Checked) speed = 6;
             else speed = 10;
     
-            if(rbSize1.Checked) { sz = new Size(10, 10); }
-            else if(rbSize2.Checked) { sz = new Size(25, 25); }
-            else if(rbSize3.Checked) { sz = new Size(100, 50); }
+            if(rbSize1.Checked) { sz = new Size(16, 16); }
+            else if(rbSize2.Checked) { sz = new Size(32, 32); }
             StartGame(speed, sz.Width, sz.Height, checkBox1.Checked);
-
         }
 
         private void btnAbout_Click(object sender, EventArgs e)
@@ -51,6 +49,12 @@ namespace SnakeGame
         private void btnExit_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void helpBtn_Click(object sender, EventArgs e)
+        {
+            FormHelp help = new FormHelp();
+            help.ShowDialog(this);
         }
     }
 }
