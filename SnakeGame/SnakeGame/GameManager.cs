@@ -41,6 +41,7 @@ namespace SnakeGame
             snake.Add(new Cell(width / 2 - 2, height / 2));
             snake.Add(new Cell(width / 2 - 3, height / 2));
             snake.Add(new Cell(width / 2 - 4, height / 2));
+            snake.Add(new Cell(width / 2 - 5, height / 2));
 
             deleted = null;
             direction = new Point(1, 0);
@@ -51,8 +52,7 @@ namespace SnakeGame
             if (!Oposite(this.direction, direction))
                 this.direction = direction;
             deleted = new Cell(snake.Last().position);
-            Cell next = snake.Last();
-            snake.RemoveAt(snake.Count - 1);
+            Cell next = new Cell(snake.Last().position);
             Cell head = snake.First();
             next.position = new Point(head.position.X + this.direction.X, head.position.Y + this.direction.Y);
             next = Bounding(next);
@@ -65,15 +65,20 @@ namespace SnakeGame
             {
                 snake.Add(snake.Last());
             }
+            if (snake.Take(snake.Count - 1).Count(a => a.position == next.position) > 0)
+            {
+                state = GameState.GameOver;
+            }
             if (pauseChange)
             {
                 if (state == GameState.Play)
                     state = GameState.Pause;
-                if (state == GameState.Pause)
+                else if (state == GameState.Pause)
                     state = GameState.Play;
             }
             if (state == GameState.Play)
             {
+                snake.RemoveAt(snake.Count - 1);
                 snake.Insert(0,next);
             }
             
@@ -89,13 +94,6 @@ namespace SnakeGame
                 canvas.DrawRectangle(p, deleted.position.X * cellW,
                     deleted.position.Y * cellH, cellW, cellH);
             }
-            //for (int px = 0; px + cellW < width_c; px += cellW)
-            //{
-            //    for (int py = 0; py + cellH < height_c; py += cellH)
-            //    {
-            //        canvas.DrawRectangle(p, new Rectangle(px, py, cellW, cellH));
-            //    }
-            //}
             
             foreach (Cell c in snake)
             {
@@ -138,14 +136,14 @@ namespace SnakeGame
 
         private Cell Bounding(Cell cell)
         {
-            if (cell.position.X > width)
+            if (cell.position.X > width - 1)
                 cell.position.X = 0;
             if (cell.position.X < 0)
-                cell.position.X = width;
-            if (cell.position.Y > height)
+                cell.position.X = width - 1;
+            if (cell.position.Y > height - 1)
                 cell.position.Y = 0;
             if (cell.position.Y < 0)
-                cell.position.Y = height;
+                cell.position.Y = height - 1;
             return cell;
         }
 
