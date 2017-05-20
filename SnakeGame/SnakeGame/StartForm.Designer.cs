@@ -38,6 +38,7 @@
             this.rbSize1 = new System.Windows.Forms.RadioButton();
             this.rbSize2 = new System.Windows.Forms.RadioButton();
             this.rbSize3 = new System.Windows.Forms.RadioButton();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +56,7 @@
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
             this.radioButton1.Location = new System.Drawing.Point(6, 19);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(58, 17);
@@ -124,6 +126,7 @@
             // rbSize1
             // 
             this.rbSize1.AutoSize = true;
+            this.rbSize1.Checked = true;
             this.rbSize1.Location = new System.Drawing.Point(7, 20);
             this.rbSize1.Name = "rbSize1";
             this.rbSize1.Size = new System.Drawing.Size(60, 17);
@@ -154,11 +157,22 @@
             this.rbSize3.Text = "50 x 50";
             this.rbSize3.UseVisualStyleBackColor = true;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(18, 273);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(52, 17);
+            this.checkBox1.TabIndex = 8;
+            this.checkBox1.Text = "Walls";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // StartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(317, 388);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.playBtn);
@@ -169,6 +183,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -184,5 +199,6 @@
         private System.Windows.Forms.RadioButton rbSize3;
         private System.Windows.Forms.RadioButton rbSize2;
         private System.Windows.Forms.RadioButton rbSize1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

@@ -17,7 +17,7 @@ namespace SnakeGame
             InitializeComponent();
         }
 
-        private void StartGame(float sp, int w, int h)
+        private void StartGame(float sp, int w, int h, bool useWalls)
         {
             Form1 form = new Form1(this, sp, w, h);
             form.Show(this);
@@ -37,7 +37,7 @@ namespace SnakeGame
             if(rbSize1.Checked) { sz = new Size(10, 10); }
             else if(rbSize2.Checked) { sz = new Size(25, 25); }
             else if(rbSize3.Checked) { sz = new Size(50, 50); }
-            StartGame(speed, sz.Width, sz.Height);
+            StartGame(speed, sz.Width, sz.Height, checkBox1.Checked);
 
         }
     }

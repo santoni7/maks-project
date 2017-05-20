@@ -27,8 +27,11 @@ namespace SnakeGame
         public const int cellW = 25;
         public const int cellH = 25;
 
-        public GameManager(int canvas_width, int canvas_height)
+        bool useWalls;
+
+        public GameManager(int canvas_width, int canvas_height, bool useWalls)
         {
+            this.useWalls = useWalls;
             UpdateCanvasSize(canvas_width, canvas_height);
 
             snake = new List<Cell>();
@@ -107,9 +110,9 @@ namespace SnakeGame
         public void DrawMap(Graphics canvas)
         {
             Pen p = Pens.Gray;
-            for (int px = 0; px + cellW < width_c; px += cellW)
+            for (int px = 0; px + cellW <= width_c; px += cellW)
             {
-                for (int py = 0; py + cellH < height_c; py += cellH)
+                for (int py = 0; py + cellH <= height_c; py += cellH)
                 {
                     canvas.DrawRectangle(p, new Rectangle(px, py, cellW, cellH));
                 }
