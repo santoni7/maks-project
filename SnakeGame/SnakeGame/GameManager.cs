@@ -12,11 +12,12 @@ namespace SnakeGame
         enum GameState { Pause, Play, GameOver}
 
         private List<Cell> snake;
-        private List<FoodCell> food;
-        private HashSet<WallCell> walls;
+        private List<Cell> food;
+        private List<Cell> walls;
         private Point direction;
         private GameState state;
-        private Cell deleted;
+        private Cell deletedSnakePart;
+        private int UpdateCount;
 
         int width_c;//canvas size
         int height_c;
@@ -35,8 +36,8 @@ namespace SnakeGame
             UpdateCanvasSize(canvas_width, canvas_height);
 
             snake = new List<Cell>();
-            food = new List<FoodCell>();
-            walls = new HashSet<WallCell>();
+            food = new List<Cell>();
+            walls = new List<Cell>();
 
             state = GameState.Play;
 
@@ -46,15 +47,18 @@ namespace SnakeGame
             snake.Add(new Cell(width / 2 - 4, height / 2));
             snake.Add(new Cell(width / 2 - 5, height / 2));
 
-            deleted = null;
+            CreateFood();
+
+            deletedSnakePart = null;
             direction = new Point(1, 0);
+            UpdateCount = 0;
         }
 
         public void Update(Point direction, bool pauseChange)
         {
             if (!Oposite(this.direction, direction))
                 this.direction = direction;
-            deleted = new Cell(snake.Last().position);
+            deletedSnakePart = new Cell(snake.Last().position);
             Cell next = new Cell(snake.Last().position);
             Cell head = snake.First();
             next.position = new Point(head.position.X + this.direction.X, head.position.Y + this.direction.Y);
@@ -67,6 +71,7 @@ namespace SnakeGame
             if (food.Contains(next))
             {
                 snake.Add(snake.Last());
+                food.Remove(next);
             }
             if (snake.Take(snake.Count - 1).Contains(next))
             {
@@ -84,26 +89,42 @@ namespace SnakeGame
                 snake.RemoveAt(snake.Count - 1);
                 snake.Insert(0,next);
             }
-            
+            UpdateCount++;
+            if (UpdateCount % 20 == 0)
+                CreateFood();
         }
+
         public void Draw(Graphics canvas)
         {
             Brush br = Brushes.White;
             Pen p = Pens.Gray;
-            if (deleted != null)
+            if (deletedSnakePart != null)
             {
-                canvas.FillRectangle(Brushes.White, deleted.position.X * cellW,
-                    deleted.position.Y * cellH, cellW, cellH);
-                canvas.DrawRectangle(p, deleted.position.X * cellW,
-                    deleted.position.Y * cellH, cellW, cellH);
+                canvas.FillRectangle(Brushes.White, deletedSnakePart.position.X * cellW,
+                    deletedSnakePart.position.Y * cellH, cellW, cellH);
+                canvas.DrawRectangle(p, deletedSnakePart.position.X * cellW,
+                    deletedSnakePart.position.Y * cellH, cellW, cellH);
+                deletedSnakePart = null;
             }
-            
-            foreach (Cell c in snake)
+
+            DrawCells(canvas, food, Color.White, Properties.Resources.food);
+            DrawCells(canvas, walls, Color.Black);
+            DrawCells(canvas, snake, Color.DarkGray);
+        }
+        
+        private void DrawCells(Graphics canvas, List<Cell> cells, Color color, Image image = null)
+        {
+            foreach (Cell c in cells)
             {
                 Point drawPosition = new Point(c.position.X * cellW, c.position.Y * cellH);
-                Brush b = new SolidBrush(Color.DarkGray);
-                canvas.FillRectangle(b, drawPosition.X, drawPosition.Y, cellW, cellH);
-                canvas.DrawRectangle(Pens.Gray, drawPosition.X, drawPosition.Y, cellW, cellH);
+                if (image != null)
+                    canvas.DrawImage(image, drawPosition.X, drawPosition.Y, cellW, cellH);
+                else
+                {
+                    Brush b = new SolidBrush(color);
+                    canvas.FillRectangle(b, drawPosition.X, drawPosition.Y, cellW, cellH);
+                    canvas.DrawRectangle(Pens.Gray, drawPosition.X, drawPosition.Y, cellW, cellH);
+                }
             }
         }
 
@@ -156,7 +177,7 @@ namespace SnakeGame
             Cell position = new Cell(rand.Next(width), rand.Next(height));
             while (walls.Contains(position) || food.Contains(position) || snake.Contains(position))
                 position = new Cell(rand.Next(width), rand.Next(height));
-            food.Add((FoodCell)position);
+            food.Add(position);
         }
 
         class Cell
@@ -178,14 +199,6 @@ namespace SnakeGame
             {
                 return ((Cell)obj).position == this.position;
             }
-        }
-        class FoodCell : Cell
-        {
-
-        }
-        class WallCell : Cell
-        {
-
         }
     }
 }
